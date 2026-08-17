@@ -109,22 +109,22 @@ L2 network, can reach each other and the internet, and your platform can snapsho
 
 ## Syllabus
 
-| #  | Module | What you'll actually understand |
-|----|--------|--------------------------------|
-| 00 | [The Lab](00-the-lab.md) | Why 3 nodes; the build/snapshot/log discipline |
-| 01 | [etcd alone](01-etcd.md) | The source of truth is *just* a key-value store |
-| 02 | kube-apiserver | Talk to it raw with `curl`; the REST + watch model; audit logging |
-| 03 | kubectl & auth | Certs, users, RBAC — how the API answers "can this caller do this?" |
-| 04 | scheduler | Watch a Pod hang `Pending`, then get bound |
-| 05 | kubelet & a real node | CRI/containerd, node registration, CSR approval |
-| 06 | controller-manager & reconciliation | The heart: kill pods, watch them return |
-| 07 | networking | The packet's physical path; kube-proxy; Services; CoreDNS; NetworkPolicy |
-| 08 | the workload object model | Deployments/StatefulSets/DaemonSets/Jobs; probes; QoS |
-| 09 | storage | Volumes, PV/PVC, CSI, the attach/mount dance |
-| 10 | extension machinery | ConfigMaps/Secrets, admission webhooks, CRDs *(optional Go appendix)* |
-| 11 | runtime & the kernel boundary | The syscall path; now seccomp/Falco are obvious |
-| 12 | observability | metrics-server, kube-state-metrics, Prometheus, control-plane telemetry |
-| 13 | capstone: failure forensics | Expired certs, corrupt etcd, wedged scheduler — diagnose cold |
+| #   | Module                              | What you'll actually understand                                          |
+| --- | ----------------------------------- | ------------------------------------------------------------------------ |
+| 00  | [The Lab](00-the-lab.md)            | Why 3 nodes; the build/snapshot/log discipline                           |
+| 01  | [etcd alone](01-etcd.md)            | The source of truth is *just* a key-value store                          |
+| 02  | [kube-apiserver](02-apiserver)      | Talk to it raw with `curl`; the REST + watch model; audit logging        |
+| 03  | [kubectl & auth](03-kubectl-auth)   | Certs, users, RBAC — how the API answers "can this caller do this?"      |
+| 04  | scheduler                           | Watch a Pod hang `Pending`, then get bound                               |
+| 05  | kubelet & a real node               | CRI/containerd, node registration, CSR approval                          |
+| 06  | controller-manager & reconciliation | The heart: kill pods, watch them return                                  |
+| 07  | networking                          | The packet's physical path; kube-proxy; Services; CoreDNS; NetworkPolicy |
+| 08  | the workload object model           | Deployments/StatefulSets/DaemonSets/Jobs; probes; QoS                    |
+| 09  | storage                             | Volumes, PV/PVC, CSI, the attach/mount dance                             |
+| 10  | extension machinery                 | ConfigMaps/Secrets, admission webhooks, CRDs *(optional Go appendix)*    |
+| 11  | runtime & the kernel boundary       | The syscall path; now seccomp/Falco are obvious                          |
+| 12  | observability                       | metrics-server, kube-state-metrics, Prometheus, control-plane telemetry  |
+| 13  | capstone: failure forensics         | Expired certs, corrupt etcd, wedged scheduler — diagnose cold            |
 
 Modules are released a few at a time, because each one assumes the exact lab state the previous
 one produced.
@@ -133,7 +133,7 @@ one produced.
 
 ## How to follow along
 
-Clone the repo and open the folder as an **Obsidian vault** (or just read on GitHub). Keep the
+Clone the repo and open the folder as an **Obsidian vault**, read on GitHub, or read on [https://argandov.github.io/kubernetes-by-hand/](https://argandov.github.io/kubernetes-by-hand/). Keep the
 manual in one pane and a terminal in another. Copy `LAB_LOG.md` and start filling it from
 Part 0 onward.
 

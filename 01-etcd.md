@@ -427,4 +427,4 @@ Snapshot each node as `part-01-etcd` (or at minimum snapshot `cp`), and add a ro
 
 **Next → Part 2 — kube-apiserver** *(coming next release)*
 
-**[← Part 0](00-the-lab.md)** | **[Index](README.md)** | **[→ Part 2](02-apiserver.md)**
+**[← Part 0](00-the-lab.md)** | **[Index](README.md)** | **[→ Part 2: The API Server](02-apiserver.md)**
