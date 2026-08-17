@@ -14,10 +14,6 @@ that was weird. Never reconstruct state from memory — read it here.
 
 ---
 
-| Date       | Part | Gate | Snapshot            | Notes                                  |
-|------------|------|:----:|---------------------|----------------------------------------|
-| 2025-01-01 | 00   |  Y   | `clean-base`        | example row — delete me                |
-|            |      |      |                     |                                        |
-|            |      |      |                     |                                        |
-|            |      |      |                     |                                        |
-|            |      |      |                     |                                        |
+| Date       | Part | Gate | Snapshot     | Notes                                           |
+| ---------- | ---- | :--: | ------------ | ----------------------------------------------- |
+| 2026-16-08 | 00   |  Y   | clean-base   | 3 nodes up, name resolution + internet verified |
