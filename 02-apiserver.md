@@ -19,6 +19,9 @@ In this chapter you'll run the API server on `cp`, pointed at the etcd you alrea
 to it with nothing but `curl`. No `kubectl` yet — that's deliberate, and it's Part 3. First you
 meet the API as what it actually is: an HTTP server.
 
+> ⏱️ **Estimated time:** 75–120 min · **Difficulty:** finicky (first cert chapter)
+> ~20–30 min extra if certs start fighting
+
 > **Forward-reference flags.** From here on, when I use a term you haven't formally met yet, I mark
 > it **[fwd]** — it means "placeholder, you'll build a real understanding of this in a later
 > chapter; take the one-line gloss for now and keep moving." You flagged in Part 1 that undefined

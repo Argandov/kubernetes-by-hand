@@ -9,6 +9,8 @@ swap, loading a kernel module, opening a port) will be introduced later, in the 
 component that actually needs it, so you learn *why* it's required instead of copying a setup
 script you don't understand.
 
+> ⏱️ **Estimated time:** 45–75 min · **Difficulty:** mechanical
+
 ---
 
 ## How to read these manuals

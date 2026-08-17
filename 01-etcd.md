@@ -12,6 +12,8 @@ self-healing, "watching" for changes — is built on the handful of primitives y
 touch directly. Meet them now, alone and unhurried, and the rest of the course has solid ground
 to stand on.
 
+> ⏱️ **Estimated time:** 60–90 min · **Difficulty:** conceptually dense, low-friction
+
 ---
 
 ## Priming questions

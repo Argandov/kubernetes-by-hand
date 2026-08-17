@@ -1,4 +1,4 @@
-# Lab Log
+[]()# Lab Log
 
 One line per session. Sixty seconds to fill. This is your re-entry point: when you come back
 after a break, the last row tells you exactly where you were, what's snapshotted, and anything

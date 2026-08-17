@@ -19,6 +19,9 @@ Only at the very end do we introduce **`kubectl`** — and by then you'll see it
 is: a comfortable client wrapped around the exact HTTP API you've been driving by hand with `curl`.
 No magic. Just a nicer `curl`.
 
+> ⏱️ **Estimated time:** 90–150 min · **Difficulty:** most moving parts so far
+> Expect a potential 20-30 min rabbit hole on Certs
+
 > **[fwd]** flags continue: a term marked **[fwd]** is a placeholder you'll fully meet later.
 
 ---
