@@ -1,6 +1,6 @@
 # Kubernetes By Hand
 
-Follow along in a nice website: [https://argandov.github.io/kubernetes-by-hand/](https://argandov.github.io/kubernetes-by-hand/)
+Follow along in a nice website (NO dark mode there, prepare for a flashbang): [https://argandov.github.io/kubernetes-by-hand/](https://argandov.github.io/kubernetes-by-hand/)
 
 > Build a Kubernetes cluster by hand, one component at a time, until nothing about it is magic.
 
