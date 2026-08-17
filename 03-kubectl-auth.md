@@ -2,10 +2,16 @@
 
 *Kubernetes By Hand*
 
-At the end of Part 2 you had a working API server with two embarrassing holes: it trusted
-**anyone** (`--authorization-mode=AlwaysAllow`), and requests carried **no real identity** (the
-audit log couldn't say who did anything). In this chapter we close both, and in doing so you'll
-learn the two questions the API server asks about *every single request*:
+> ⏱️ **Estimated time:** 90–150 min · **Difficulty:** most moving parts so far
+> Certs are where people lose 20–30 min — a mismatched CA or a wrong subject name is the usual
+> culprit. The 401-vs-403 distinction in Troubleshooting is your compass. Times assume "understand
+> and move," not deep rabbit-holing.
+
+At the end of Part 2 you had a working API server with two embarrassing holes: identity was a
+**single shared token** anyone could copy (`me`, via `--token-auth-file`), and authorization was
+`--authorization-mode=AlwaysAllow` — once you badged in, you could do **anything**. In this chapter
+we replace both with the real thing, and in doing so you'll learn the two questions the API server
+asks about *every single request*:
 
 1. **Authentication** — *"Who are you?"* (prove your identity)
 2. **Authorization** — *"Are you allowed to do this?"* (RBAC decides)
@@ -19,9 +25,6 @@ Only at the very end do we introduce **`kubectl`** — and by then you'll see it
 is: a comfortable client wrapped around the exact HTTP API you've been driving by hand with `curl`.
 No magic. Just a nicer `curl`.
 
-> ⏱️ **Estimated time:** 90–150 min · **Difficulty:** most moving parts so far
-> Expect a potential 20-30 min rabbit hole on Certs
-
 > **[fwd]** flags continue: a term marked **[fwd]** is a placeholder you'll fully meet later.
 
 ---
@@ -30,9 +33,11 @@ No magic. Just a nicer `curl`.
 
 Guess first. Don't look anything up.
 
-1. The API server needs to know *who* is making a request. It has no user database, no passwords
-   file you've set up. So how can an HTTP client **prove who it is** using only the TLS connection
-   itself? (You made a certificate in Part 2. What if a certificate could carry a *name*?)
+1. In Part 2 you proved who you were with a shared bearer token — a password anyone holding the
+   file could use, with no way to tell two people apart. How could an HTTP client prove its identity
+   using the **TLS connection itself**, so the credential is per-user and unforgeable? (You already
+   made a *serving* cert in Part 2 to prove the server to you. What if a cert could run the other
+   direction and carry *your* name?)
 2. "Authentication" and "authorization" sound like synonyms in English but are two distinct steps
    here. What's the difference, and why must they be separate? What breaks if you conflate them?
 3. RBAC stands for Role-Based Access Control. Before reading its details: if you had to design
@@ -41,8 +46,10 @@ Guess first. Don't look anything up.
 4. `kubectl get pods` and `curl -k https://.../api/v1/.../pods` return the same data. So what,
    precisely, is `kubectl` *doing* that `curl` isn't — and what must it read to know where your API
    server is and who you are?
-5. In Part 2 the audit log's `user` field was anonymous. After this chapter, what will it say — and
-   *why* will it suddenly know?
+5. In Part 2 the audit log's `user` field said `me` — the shared token user, identical for anyone
+   holding the token. After this chapter it'll say your real per-user identity, and records will show
+   *allowed vs denied*. Why does giving each caller a real identity (and real permissions) make the
+   audit log meaningfully more useful than it was with the shared token?
 
 ---
 
@@ -52,9 +59,15 @@ Resuming from a passed **Part 2** gate.
 
 - You're on **`cp`**.
 - etcd runs and is healthy; `kube-apiserver` (v`KVER`) starts and serves on `6443`.
-- You can create a Namespace via `curl` and find it in etcd under `/registry`.
-- You have the throwaway `~/pki/apiserver.crt|key` and `~/pki/sa.*` from Part 2, and a
-  `part-02-apiserver` snapshot.
+- You can create a Namespace via `curl` (with your `Authorization: Bearer` token) and find it in
+  etcd under `/registry`.
+- You still have the throwaway `~/pki/apiserver.crt|key` (serving cert), `~/pki/sa.*`, and
+  `~/pki/tokens.csv` from Part 2, and a `part-02-apiserver` snapshot.
+
+> **Note on what carries over.** Part 2's serving cert and SA keypair stay exactly as they are —
+> we keep using them. This chapter *adds* a real CA and client certs, and swaps `AlwaysAllow` for
+> RBAC. The shared token still works for now; by the end you'll have replaced it with a proper
+> client-certificate identity and can retire it.
 
 Check on `cp`:
 
@@ -180,12 +193,16 @@ sudo kube-apiserver \
   2>&1 | tee /tmp/apiserver.log
 ```
 
-The two lines that changed everything:
+The lines that changed everything:
 
 - `--client-ca-file=$HOME/pki/ca.crt` — **authentication**: "trust client certs signed by this CA,
   and read the caller's identity (CN/O) from them."
 - `--authorization-mode=Node,RBAC` — **authorization**: "stop allowing everyone; check RBAC rules."
   (`Node` is an additional authorizer for workers **[fwd: Part 5]**; harmless now.)
+
+Note we also **dropped `--token-auth-file`** — that shared Part 2 token is retired here on purpose;
+from now on you identify with a client certificate, not a shared password. (You could keep it, but
+retiring it is the point.)
 
 Leave it running.
 
@@ -281,16 +298,19 @@ curl --cert argv.crt --key argv.key --cacert ca.crt \
 
 ### Step 6 — Confirm the audit log now names you (closing Part 2's thread)
 
-Priming Q5. Back in Part 2 the audit `user` was anonymous. Look now:
+Priming Q5. In Part 2 the audit `user` said `me` — the *shared* token user, identical for anyone
+holding the token, and every action showed as allowed (there was nothing to deny). Look now:
 
 ```bash
 tail -n 20 /tmp/audit.log | jq -r 'select(.objectRef.resource=="namespaces") | "\(.verb) \(.objectRef.resource) by \(.user.username) -> \(.responseStatus.code // "?")"' | tail -5
 ```
 
-You'll see lines attributing actions to **`argv`** (and your denied delete showing a `403`). The
-audit log didn't change — *authentication* did. The moment requests carry a real identity, the
-front door's ledger records *who*. That's the whole reason audit logging lived in the API server
-chapter: it was only ever waiting for identity to become meaningful.
+You'll see lines attributing actions to **`argv`** — your real per-user identity — and your denied
+delete showing a **`403`**. Two things got richer at once: the `user` is now a *specific person*
+rather than a shared password, and the ledger now records *allowed vs denied*. The audit machinery
+didn't change — *authentication and authorization* did. That's the whole reason audit logging lived
+in the API server chapter: it was only ever waiting for identity and permissions to become
+meaningful.
 
 ### Step 7 — Finally, `kubectl`: a client of everything you just built
 
@@ -452,4 +472,4 @@ Snapshot `cp` as `part-03-kubectl-auth` and add a row to `LAB_LOG.md`:
 
 **Next → Part 4 — the scheduler** *(coming next release)*
 
-**[← Part 2](02-apiserver.md)** | **[Index](README.md)** | **[→ Part 4](02-apiserver.md)**
+**[← Part 2](02-apiserver.md)** · **[Index](README.md)**
