@@ -1,5 +1,7 @@
 # Kubernetes By Hand
 
+Follow along in a nice website: [https://argandov.github.io/kubernetes-by-hand/](https://argandov.github.io/kubernetes-by-hand/)
+
 > Build a Kubernetes cluster by hand, one component at a time, until nothing about it is magic.
 
 This is not a "get a cluster running fast" guide. Tools like `minikube` and `kind` are
