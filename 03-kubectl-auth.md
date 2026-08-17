@@ -449,4 +449,4 @@ Snapshot `cp` as `part-03-kubectl-auth` and add a row to `LAB_LOG.md`:
 
 **Next → Part 4 — the scheduler** *(coming next release)*
 
-**[← Part 2](02-apiserver.md)** · **[Index](README.md)**
+**[← Part 2](02-apiserver.md)** | **[Index](README.md)** | **[→ Part 4](02-apiserver.md)**
