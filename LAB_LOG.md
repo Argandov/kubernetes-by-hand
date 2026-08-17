@@ -14,6 +14,8 @@ that was weird. Never reconstruct state from memory — read it here.
 
 ---
 
-| Date       | Part | Gate | Snapshot     | Notes                                           |
-| ---------- | ---- | :--: | ------------ | ----------------------------------------------- |
-| 2026-16-08 | 00   |  Y   | clean-base   | 3 nodes up, name resolution + internet verified |
+| Date       | Part | Gate | Snapshot     | Notes                                                                                |
+| ---------- | ---- | :--: | ------------ | ------------------------------------------------------------------------------------ |
+| 2026-16-08 | 00   |  Y   | clean-base   | 3 nodes up, name resolution + internet verified                                      |
+| 2026-16-08 | 01   |  Y   | part-01-etcd | ran etcd solo; watch/lease/revision/txn by hand; understood control/data-plane split |
+
