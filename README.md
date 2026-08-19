@@ -123,8 +123,9 @@ L2 network, can reach each other and the internet, and your platform can snapsho
 | 00  | [The Lab](00-the-lab.md)            | Why 3 nodes; the build/snapshot/log discipline                           |
 | 01  | [etcd alone](01-etcd.md)            | The source of truth is *just* a key-value store                          |
 | 02  | [kube-apiserver](02-apiserver)      | Talk to it raw with `curl`; the REST + watch model; audit logging        |
+| (02.5)  | [PKI fundamentals](02.5-pki-fundamentals.md)   | Basic PKI crash course that will help with part 3 onwards |
 | 03  | [kubectl & auth](03-kubectl-auth)   | Certs, users, RBAC — how the API answers "can this caller do this?"      |
-| 04  | scheduler                           | Watch a Pod hang `Pending`, then get bound                               |
+| 04  | [scheduler](04-scheduler)           | Watch a Pod hang `Pending`, then get bound                               |
 | 05  | kubelet & a real node               | CRI/containerd, node registration, CSR approval                          |
 | 06  | controller-manager & reconciliation | The heart: kill pods, watch them return                                  |
 | 07  | networking                          | The packet's physical path; kube-proxy; Services; CoreDNS; NetworkPolicy |
