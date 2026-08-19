@@ -484,6 +484,8 @@ API server actually decides *"may this caller do this?"* — you'll watch a requ
 `200` because of a rule you wrote — and finally retire raw `curl` for `kubectl`, which you'll see is
 nothing more than a well-dressed client of the exact HTTP API you just drove by hand.
 
+I added a "PKI Fundamentals" crash course as part 2.5. Skip it if you're comfortable with: what a CA is actually signing when it issues a cert, the difference between one-way TLS and mTLS, and why a cert's CN/SAN fields matter — not just the words, but why openssl verify would reject a bad one.
+
 ---
 
 ## Lab log
@@ -497,6 +499,6 @@ need the same version for every future component.
 
 ---
 
-**Next → [Part 3 — kubectl & auth](03-kubectl-auth.md)**
+**Next → [(Optional) Part 2.5 - PKI Fundamentals](02.5-pki-fundamentals.md) / [Part 3 — kubectl & auth](03-kubectl-auth.md)**
 
 **[← Part 1](01-etcd.md)** · **[Index](README.md)**
