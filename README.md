@@ -1,6 +1,15 @@
 # Kubernetes By Hand
 
 Follow along in a nice website (NO dark mode there, prepare for a flashbang): [https://argandov.github.io/kubernetes-by-hand/](https://argandov.github.io/kubernetes-by-hand/)
+### Disclaimer:
+
+> This entire learning track, starting bellow the next section, was built using AI, and it's **entirely** customized to my specific learning needs, so it may or may not, be helpful for you in its intended order. However, due to the depth of some topics and how it's structured, I am sure anyone can benefit from it, whether you're a beginner or an advanced Kubernetes wizard. 
+
+> Read the **Syllabus** below for more information.
+
+> I talk about the how/why here in my website: [argv.cloud/blog/2026/kubernetes-by-hand/](https://argv.cloud/blog/2026/kubernetes-by-hand/)
+
+---
 
 > Build a Kubernetes cluster by hand, one component at a time, until nothing about it is magic.
 
