@@ -214,7 +214,7 @@ files: your cert, your key, and the CA (so curl trusts the server too — no mor
 ```bash
 cd ~/pki
 
-curl --cert argv.crt --key argv.key --cacert ca.crt \
+curl --cert argv.crt --key argv.key --cacert apiserver.crt \
   https://127.0.0.1:6443/api/v1/namespaces
 ```
 
@@ -252,7 +252,7 @@ it) that grant `argv` read access to namespaces. We POST these as JSON, same as 
 cd ~/pki
 
 # ClusterRole: "get,list,watch on namespaces"
-curl --cert admin.crt --key admin.key --cacert ca.crt \
+curl --cert admin.crt --key admin.key --cacert apiserver.crt \
   -X POST https://127.0.0.1:6443/apis/rbac.authorization.k8s.io/v1/clusterroles \
   -H 'Content-Type: application/json' \
   -d '{
@@ -263,7 +263,7 @@ curl --cert admin.crt --key admin.key --cacert ca.crt \
   }'
 
 # ClusterRoleBinding: bind that role to user "argv"
-curl --cert admin.crt --key admin.key --cacert ca.crt \
+curl --cert admin.crt --key admin.key --cacert apiserver.crt \
   -X POST https://127.0.0.1:6443/apis/rbac.authorization.k8s.io/v1/clusterrolebindings \
   -H 'Content-Type: application/json' \
   -d '{
@@ -278,7 +278,7 @@ curl --cert admin.crt --key admin.key --cacert ca.crt \
 Now repeat the **exact** request that was denied in Step 4, as `argv`:
 
 ```bash
-curl --cert argv.crt --key argv.key --cacert ca.crt \
+curl --cert argv.crt --key argv.key --cacert apiserver.crt \
   https://127.0.0.1:6443/api/v1/namespaces | jq '.items[].metadata.name'
 ```
 
@@ -291,7 +291,7 @@ Try a verb you *didn't* grant and watch the denial return — proving grants are
 
 ```bash
 # you were granted get/list/watch, NOT delete:
-curl --cert argv.crt --key argv.key --cacert ca.crt \
+curl --cert argv.crt --key argv.key --cacert apiserver.crt \
   -X DELETE https://127.0.0.1:6443/api/v1/namespaces/byhand
 # -> 403 Forbidden: argv cannot delete namespaces
 ```
@@ -300,6 +300,8 @@ curl --cert argv.crt --key argv.key --cacert ca.crt \
 
 Priming Q5. In Part 2 the audit `user` said `me` — the *shared* token user, identical for anyone
 holding the token, and every action showed as allowed (there was nothing to deny). Look now:
+
+# NADA AQUI ↓:
 
 ```bash
 tail -n 20 /tmp/audit.log | jq -r 'select(.objectRef.resource=="namespaces") | "\(.verb) \(.objectRef.resource) by \(.user.username) -> \(.responseStatus.code // "?")"' | tail -5
@@ -470,6 +472,6 @@ Snapshot `cp` as `part-03-kubectl-auth` and add a row to `LAB_LOG.md`:
 
 ---
 
-**Next → Part 4 — the scheduler** *(coming next release)*
+**Next → [Part 4 — the scheduler](04-scheduler)**
 
 **[← Part 2](02-apiserver.md)** · **[Index](README.md)**

@@ -35,8 +35,7 @@ Guess first, don't look anything up.
    that Pod is empty — and what would "scheduling" therefore *concretely mean* in terms of that
    field?
 2. The scheduler is "a loop that watches for unscheduled Pods and assigns them." Given what you saw
-   in Parts 1–2, what is it **watching**, and when it decides, what does it physically **do** to
-   record the decision? (It has no special power — it's just another API client.)
+   in Parts 1–2, what is it **watching**, and when it decides, what does it physically **do** to record the decision? (It has no special power — it's just another API client.)
 3. We're about to schedule a Pod onto a node that isn't a real machine — no OS, no container
    runtime, nothing. It'll "succeed." What does that tell you about the relationship between
    *scheduling* a Pod and *running* it?
