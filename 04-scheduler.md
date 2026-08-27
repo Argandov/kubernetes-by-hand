@@ -153,6 +153,32 @@ spec:
       image: nginx:stable       # a valid spec; it will NOT actually run (no kubelet yet)
 EOF
 
+```
+NOTE: Applying scheduler-demo.yaml will fail with:
+
+```
+Error from server (Forbidden): pods "scheduler-demo" is forbidden: error looking up
+service account default/default: serviceaccount "default" not found
+```
+This isn't RBAC — it's a different gate: the ServiceAccount admission controller, which
+requires every Pod to reference a valid ServiceAccount. Every Pod gets default stamped into
+spec.serviceAccountName if you don't set one yourself, but something has to actually create
+that ServiceAccount object per namespace first. In a normal cluster, kube-controller-manager
+runs a background loop that does exactly this the moment a namespace is created. You don't have
+a controller-manager yet — it hasn't been built in this series — so the default namespace
+exists, but nothing ever created its default ServiceAccount. The admission controller correctly
+refuses to admit a Pod pointing at an object that isn't there.
+
+**Create it by hand**, the same way you'd create any object:
+
+```
+kubectl --context admin create serviceaccount default -n default
+```
+
+Then re-apply the Pod. **[fwd: the loop that would normally automate this — and many others like
+it — is kube-controller-manager, coming in a later chapter]**
+
+```
 kubectl apply -f ~/scheduler-demo.yaml
 ```
 
