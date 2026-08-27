@@ -301,8 +301,6 @@ curl --cert argv.crt --key argv.key --cacert apiserver.crt \
 Priming Q5. In Part 2 the audit `user` said `me` — the *shared* token user, identical for anyone
 holding the token, and every action showed as allowed (there was nothing to deny). Look now:
 
-# NADA AQUI ↓:
-
 ```bash
 tail -n 20 /tmp/audit.log | jq -r 'select(.objectRef.resource=="namespaces") | "\(.verb) \(.objectRef.resource) by \(.user.username) -> \(.responseStatus.code // "?")"' | tail -5
 ```
@@ -337,7 +335,7 @@ cd ~/pki
 
 kubectl config set-cluster byhand \
   --server=https://127.0.0.1:6443 \
-  --certificate-authority=$HOME/pki/ca.crt \
+  --certificate-authority=$HOME/pki/apiserver.crt \
   --embed-certs=true \
   --kubeconfig=$HOME/.kube/config
 
