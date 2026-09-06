@@ -7,6 +7,8 @@ Follow along in a nice website (NO dark mode there, prepare for a flashbang): [h
 
 > Read the **Syllabus** below for more information.
 
+> Of course, none of this is meant for production use, since it uses insecure configurations meant for educational purposes.
+
 > I talk about the how/why here in my website: [argv.cloud/blog/2026/kubernetes-by-hand/](https://argv.cloud/blog/2026/kubernetes-by-hand/)
 
 ---
